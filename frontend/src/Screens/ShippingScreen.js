@@ -9,6 +9,14 @@ import CheckoutSteps from '../components/CheckoutSteps'
 const ShippingScreen = () => {
 	const { shippingAddress } = useSelector(state => state.cart)
 	const { userInfo } = useSelector(state => state.userLogin)
+	const { push } = useHistory()
+
+	useEffect(() => {
+		if (!userInfo) {
+			push('/login?redirect=shipping')
+		}
+	}, [userInfo, push])
+
 	const [address, setAddress] = useState(
 		shippingAddress.address ? shippingAddress.address : ''
 	)
@@ -21,14 +29,8 @@ const ShippingScreen = () => {
 	const [country, setCountry] = useState(
 		shippingAddress.country ? shippingAddress.country : ''
 	)
-	const { push } = useHistory()
-	const dispatch = useDispatch()
 
-	useEffect(() => {
-		if (!userInfo) {
-			push('/login')
-		}
-	}, [push, userInfo])
+	const dispatch = useDispatch()
 
 	const submitHandler = e => {
 		e.preventDefault()
